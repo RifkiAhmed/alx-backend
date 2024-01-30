@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-'''LIFOCache Model'''
+'''LRUCache Model'''
 
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LRUCache(BaseCaching):
-    '''LIFOCache CLass'''
+    '''LRUCache CLass'''
     my_cache = {}
 
     def put(self, key, item):

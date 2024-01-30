@@ -27,6 +27,8 @@ class LFUCache(BaseCaching):
     def get(self, key):
         '''Get an item by key'''
         if self.cache_data.get(key):
-            self.my_cache[key] += 1
+            item = self.my_cache[key]
+            del self.my_cache[key]
+            self.my_cache[key] = item + 1
             return self.cache_data[key]
         return None

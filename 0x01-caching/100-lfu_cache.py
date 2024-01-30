@@ -14,9 +14,9 @@ class LFUCache(BaseCaching):
             keys = list(self.my_cache.keys())
             if len(keys) >= BaseCaching.MAX_ITEMS:
                 min_value = min(self.my_cache.values())
-                for key, value in self.my_cache.items():
-                    if value == min_value:
-                        v_key = key
+                for _key, _value in self.my_cache.items():
+                    if _value == min_value:
+                        v_key = _key
                         break
                 del self.cache_data[v_key]
                 del self.my_cache[v_key]

@@ -28,7 +28,7 @@ app.config.from_object(Config)
 @app.route("/")
 def index():
     """Render the index page"""
-    return render_template("6-index.html")
+    return render_template("7-index.html")
 
 
 def get_user():

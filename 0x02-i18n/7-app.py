@@ -71,10 +71,10 @@ def get_timezone():
     elif g.user and g.user["timezone"]:
         timezone = g.user["timezone"]
     try:
-        return pytz.timezone(timezone)
+        pytz.timezone(timezone)
+        return timezone
     except (TypeError, pytz.UnknownTimeZoneError):
-        pass
-    return pytz.timezone(app.config["BABEL_DEFAULT_TIMEZONE"])
+        return app.config["BABEL_DEFAULT_TIMEZONE"]
 
 
 if __name__ == "__main__":

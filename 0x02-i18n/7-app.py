@@ -3,6 +3,7 @@
 from flask import Flask, g, render_template, request
 from flask_babel import Babel
 import pytz
+from typing import Dict, Optional
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -26,12 +27,12 @@ app.config.from_object(Config)
 
 
 @app.route("/")
-def index():
+def index() -> str:
     """Render the index page"""
     return render_template("7-index.html")
 
 
-def get_user():
+def get_user() -> Optional[Dict]:
     """Returns the logged-in user based on the login_as parameter"""
     try:
         return users.get(int(request.args.get("login_as")))
@@ -40,13 +41,13 @@ def get_user():
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """Sets the logged-in user in the global 'g' object"""
     g.user = get_user()
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """Return the locale received in the requests argument if it's
     supported else retruns the best locale that match the best with
     supported languages
@@ -63,7 +64,7 @@ def get_locale():
 
 
 @babel.timezoneselector
-def get_timezone():
+def get_timezone() -> str:
     """Returns the appropriate time zone"""
     timezone = None
     if request.args.get("timezone"):

@@ -8,16 +8,16 @@ app.listen(1245);
 
 const listProducts = [
   {
-    Id: 1, name: 'Suitcase 250', price: 50, initialAvailableQuantity: 4
+    Id: 1, name: 'Suitcase 250', price: 50, stock: 4
   },
   {
-    Id: 2, name: 'Suitcase 450', price: 100, initialAvailableQuantity: 10
+    Id: 2, name: 'Suitcase 450', price: 100, stock: 10
   },
   {
-    Id: 3, name: 'Suitcase 650', price: 350, initialAvailableQuantity: 2
+    Id: 3, name: 'Suitcase 650', price: 350, stock: 2
   },
   {
-    Id: 4, name: 'Suitcase 1050', price: 550, initialAvailableQuantity: 5
+    Id: 4, name: 'Suitcase 1050', price: 550, stock: 5
   }
 ];
 
@@ -41,7 +41,14 @@ async function getCurrentReservedStockById(itemId) {
 }
 
 app.get('/list_products', (req, res) => {
-  res.send(JSON.stringify(listProducts));
+  res.send(JSON.stringify(listProducts.map(product => {
+    return {
+      itemId: product.Id,
+      itemName: product.name,
+      price: product.price,
+      initialAvailableQuantity: product.stock
+    }})
+  ));
 });
 
 app.get('/list_products/:itemId', async (req, res) => {
@@ -51,8 +58,12 @@ app.get('/list_products/:itemId', async (req, res) => {
     res.send({"status": "Product not found"});
   }
   const currentReservedStock = await getCurrentReservedStockById(itemId);
-  const availableStock = parseInt(item.initialAvailableQuantity) - currentReservedStock
-  const currentProduct = {...item, currentQuantity: availableStock};
+  const availableStock = parseInt(item.stock) - currentReservedStock
+  const currentProduct = {
+	  itemId: item.Id,
+	  itemName: item.name,
+	  price: item.price,
+	  currentQuantity: availableStock};
   res.send(JSON.stringify(currentProduct));
 });
 
